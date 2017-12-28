@@ -212,7 +212,7 @@
             this.btnCalc.UseVisualStyleBackColor = true;
             this.btnCalc.Click += new System.EventHandler(this.btnCalc_Click);
             // 
-            // Form1
+            // FormZYPJ
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -236,10 +236,11 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtQZ);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Name = "FormZYPJ";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "大话孩子职业评价计算器";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormZYPJ_FormClosing);
+            this.Load += new System.EventHandler(this.FormZYPJ_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
