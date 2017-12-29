@@ -11,12 +11,30 @@ namespace dhzypj
 {
     public partial class FormZYPJ : Form
     {
+        List<string> m_sxName = new List<string>();
+        List<TextBox> m_sxCtrl = new List<TextBox>();
+
         /// <summary>
         /// 构造函数
         /// </summary>
         public FormZYPJ()
         {
             InitializeComponent();
+            m_sxName.Add("气质");
+            m_sxName.Add("智力");
+            m_sxName.Add("内力");
+            m_sxName.Add("耐力");
+            m_sxName.Add("道德");
+            m_sxName.Add("叛逆");
+            m_sxName.Add("名气");
+
+            m_sxCtrl.Add(txtQZ);
+            m_sxCtrl.Add(txtZL);
+            m_sxCtrl.Add(txtNL);
+            m_sxCtrl.Add(txtNaiL);
+            m_sxCtrl.Add(txtDD);
+            m_sxCtrl.Add(txtPN);
+            m_sxCtrl.Add(txtMQ);
         }
 
         /// <summary>
@@ -48,6 +66,9 @@ namespace dhzypj
             try
             {
                 string sText = txtBox.Text;
+                if (string.IsNullOrEmpty(sText))
+                    return;
+
                 int nValue = Convert.ToInt32(sText);
 
                 //属性值不能超过1200
@@ -59,7 +80,7 @@ namespace dhzypj
                     txtBox.Text = "";
 
                 //去掉属性值前面多余的0
-                if (sText.TrimStart('0').CompareTo(sText) != 0)
+                if (sText.CompareTo("0") != 0 && sText.TrimStart('0').CompareTo(sText) != 0)
                     txtBox.Text = sText.TrimStart('0');
             }
             catch (Exception ex)
@@ -209,7 +230,46 @@ namespace dhzypj
         /// <param name="e"></param>
         private void btnCalc_Click(object sender, EventArgs e)
         {
+            try
+            {
+                List<int> sx = new List<int>();
+                sx.Add(string.IsNullOrEmpty(txtQZ.Text) ? 0 : Convert.ToInt32(txtQZ.Text));
+                sx.Add(string.IsNullOrEmpty(txtZL.Text) ? 0 : Convert.ToInt32(txtZL.Text));
+                sx.Add(string.IsNullOrEmpty(txtNL.Text) ? 0 : Convert.ToInt32(txtNL.Text));
+                sx.Add(string.IsNullOrEmpty(txtNaiL.Text) ? 0 : Convert.ToInt32(txtNaiL.Text));
+                sx.Add(string.IsNullOrEmpty(txtDD.Text) ? 0 : Convert.ToInt32(txtDD.Text));
+                sx.Add(string.IsNullOrEmpty(txtPN.Text) ? 0 : Convert.ToInt32(txtPN.Text));
+                sx.Add(string.IsNullOrEmpty(txtMQ.Text) ? 0 : Convert.ToInt32(txtMQ.Text));
 
+                int nJD = string.IsNullOrEmpty(txtJD.Text) ? 0 : Convert.ToInt32(txtJD.Text);
+
+                int nMaxZYPJ = 0;
+                int nMaxZYPJIndex = 0;
+                for (int i = 0; i < sx.Count; i++)
+                {
+                    int[] sxCopy = new int[7];
+                    sx.CopyTo(sxCopy);
+                    sxCopy[i] += nJD;
+                    if (sxCopy[i] > 1200)
+                        sxCopy[i] = 1200;
+
+                    int nZYPJ = CalcZYPJ(sxCopy[0], sxCopy[1], sxCopy[2], sxCopy[3], sxCopy[4], sxCopy[5], sxCopy[6]);
+
+                    if (nZYPJ > nMaxZYPJ)
+                    {
+                        nMaxZYPJ = nZYPJ;
+                        nMaxZYPJIndex = i;
+                    }
+                }
+
+                if (MessageBox.Show("为[" + m_sxName[nMaxZYPJIndex] + "]加" + nJD.ToString() + "点会获得最大职业评价：" + nMaxZYPJ.ToString() + "，是否立即加点？", "提示", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+                    m_sxCtrl[nMaxZYPJIndex].Text = (sx[nMaxZYPJIndex] + nJD).ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return;
+            }
         }
     }
 }
