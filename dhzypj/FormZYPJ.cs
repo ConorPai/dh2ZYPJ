@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace dhzypj
 {
@@ -44,7 +45,20 @@ namespace dhzypj
         /// <param name="e"></param>
         private void FormZYPJ_Load(object sender, EventArgs e)
         {
-            //TODO：加载配置文件，还原各属性点
+            string sConfigFile = Application.StartupPath + @"/config.cfg";
+            if (File.Exists(sConfigFile))
+            {
+                StreamReader sr = new StreamReader(sConfigFile, Encoding.UTF8);
+                txtQZ.Text = sr.ReadLine();
+                txtZL.Text = sr.ReadLine();
+                txtNL.Text = sr.ReadLine();
+                txtNaiL.Text = sr.ReadLine();
+                txtDD.Text = sr.ReadLine();
+                txtPN.Text = sr.ReadLine();
+                txtMQ.Text = sr.ReadLine();
+                sr.Close();
+                sr.Dispose();
+            }
         }
 
         /// <summary>
@@ -54,7 +68,36 @@ namespace dhzypj
         /// <param name="e"></param>
         private void FormZYPJ_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //TODO：保存配置文件，以免下次计算重新输入属性点
+            try
+            {
+                int nQZ = string.IsNullOrEmpty(txtQZ.Text) ? 0 : Convert.ToInt32(txtQZ.Text);
+                int nZL = string.IsNullOrEmpty(txtZL.Text) ? 0 : Convert.ToInt32(txtZL.Text);
+                int nNL = string.IsNullOrEmpty(txtNL.Text) ? 0 : Convert.ToInt32(txtNL.Text);
+                int nNaiL = string.IsNullOrEmpty(txtNaiL.Text) ? 0 : Convert.ToInt32(txtNaiL.Text);
+                int nDD = string.IsNullOrEmpty(txtDD.Text) ? 0 : Convert.ToInt32(txtDD.Text);
+                int nPN = string.IsNullOrEmpty(txtPN.Text) ? 0 : Convert.ToInt32(txtPN.Text);
+                int nMQ = string.IsNullOrEmpty(txtMQ.Text) ? 0 : Convert.ToInt32(txtMQ.Text);
+
+                string sConfigFile = Application.StartupPath + @"/config.cfg";
+                if (File.Exists(sConfigFile))
+                    File.Delete(sConfigFile);
+
+                StreamWriter sw = new StreamWriter(sConfigFile, true, Encoding.UTF8);
+                sw.WriteLine(nQZ.ToString());
+                sw.WriteLine(nZL.ToString());
+                sw.WriteLine(nNL.ToString());
+                sw.WriteLine(nNaiL.ToString());
+                sw.WriteLine(nDD.ToString());
+                sw.WriteLine(nPN.ToString());
+                sw.WriteLine(nMQ.ToString());
+                sw.Flush();
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return;
+            }
         }
 
         /// <summary>
