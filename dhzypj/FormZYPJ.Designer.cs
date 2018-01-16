@@ -47,6 +47,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.lblCurZYPJ = new System.Windows.Forms.Label();
             this.btnCalc = new System.Windows.Forms.Button();
+            this.txtWX = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -171,7 +173,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(68, 201);
+            this.label8.Location = new System.Drawing.Point(68, 217);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(65, 12);
             this.label8.TabIndex = 14;
@@ -179,7 +181,7 @@
             // 
             // txtJD
             // 
-            this.txtJD.Location = new System.Drawing.Point(130, 197);
+            this.txtJD.Location = new System.Drawing.Point(130, 213);
             this.txtJD.Name = "txtJD";
             this.txtJD.Size = new System.Drawing.Size(61, 21);
             this.txtJD.TabIndex = 15;
@@ -187,7 +189,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(180, 148);
+            this.label9.Location = new System.Drawing.Point(113, 186);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(89, 12);
             this.label9.TabIndex = 16;
@@ -196,7 +198,7 @@
             // lblCurZYPJ
             // 
             this.lblCurZYPJ.AutoSize = true;
-            this.lblCurZYPJ.Location = new System.Drawing.Point(265, 148);
+            this.lblCurZYPJ.Location = new System.Drawing.Point(198, 186);
             this.lblCurZYPJ.Name = "lblCurZYPJ";
             this.lblCurZYPJ.Size = new System.Drawing.Size(29, 12);
             this.lblCurZYPJ.TabIndex = 17;
@@ -204,7 +206,7 @@
             // 
             // btnCalc
             // 
-            this.btnCalc.Location = new System.Drawing.Point(198, 196);
+            this.btnCalc.Location = new System.Drawing.Point(198, 212);
             this.btnCalc.Name = "btnCalc";
             this.btnCalc.Size = new System.Drawing.Size(75, 23);
             this.btnCalc.TabIndex = 18;
@@ -212,11 +214,30 @@
             this.btnCalc.UseVisualStyleBackColor = true;
             this.btnCalc.Click += new System.EventHandler(this.btnCalc_Click);
             // 
+            // txtWX
+            // 
+            this.txtWX.Location = new System.Drawing.Point(220, 144);
+            this.txtWX.Name = "txtWX";
+            this.txtWX.Size = new System.Drawing.Size(64, 21);
+            this.txtWX.TabIndex = 20;
+            this.txtWX.TextChanged += new System.EventHandler(this.txtWX_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(189, 148);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(29, 12);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "玩性";
+            // 
             // FormZYPJ
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 242);
+            this.Controls.Add(this.txtWX);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.btnCalc);
             this.Controls.Add(this.lblCurZYPJ);
             this.Controls.Add(this.label9);
@@ -270,6 +291,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lblCurZYPJ;
         private System.Windows.Forms.Button btnCalc;
+        private System.Windows.Forms.TextBox txtWX;
+        private System.Windows.Forms.Label label10;
     }
 }
 

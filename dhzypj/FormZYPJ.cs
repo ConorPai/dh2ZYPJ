@@ -56,6 +56,7 @@ namespace dhzypj
                 txtDD.Text = sr.ReadLine();
                 txtPN.Text = sr.ReadLine();
                 txtMQ.Text = sr.ReadLine();
+                txtWX.Text = sr.ReadLine();
                 sr.Close();
                 sr.Dispose();
             }
@@ -77,6 +78,7 @@ namespace dhzypj
                 int nDD = string.IsNullOrEmpty(txtDD.Text) ? 0 : Convert.ToInt32(txtDD.Text);
                 int nPN = string.IsNullOrEmpty(txtPN.Text) ? 0 : Convert.ToInt32(txtPN.Text);
                 int nMQ = string.IsNullOrEmpty(txtMQ.Text) ? 0 : Convert.ToInt32(txtMQ.Text);
+                int nWX = string.IsNullOrEmpty(txtWX.Text) ? 0 : Convert.ToInt32(txtWX.Text);
 
                 string sConfigFile = Application.StartupPath + @"/config.cfg";
                 if (File.Exists(sConfigFile))
@@ -90,6 +92,7 @@ namespace dhzypj
                 sw.WriteLine(nDD.ToString());
                 sw.WriteLine(nPN.ToString());
                 sw.WriteLine(nMQ.ToString());
+                sw.WriteLine(nWX.ToString());
                 sw.Flush();
                 sw.Close();
             }
@@ -213,6 +216,17 @@ namespace dhzypj
         }
 
         /// <summary>
+        /// 玩性
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtWX_TextChanged(object sender, EventArgs e)
+        {
+            CheckValueValid(sender as TextBox);
+            ShowCurZYPJ();
+        }
+
+        /// <summary>
         /// 计算并显示当前职业评价
         /// </summary>
         private void ShowCurZYPJ()
@@ -226,8 +240,9 @@ namespace dhzypj
                 int nDD = string.IsNullOrEmpty(txtDD.Text) ? 0 : Convert.ToInt32(txtDD.Text);
                 int nPN = string.IsNullOrEmpty(txtPN.Text) ? 0 : Convert.ToInt32(txtPN.Text);
                 int nMQ = string.IsNullOrEmpty(txtMQ.Text) ? 0 : Convert.ToInt32(txtMQ.Text);
+                int nWX = string.IsNullOrEmpty(txtWX.Text) ? 0 : Convert.ToInt32(txtWX.Text);
 
-                int nZYPJ = CalcZYPJ(nQZ, nZL, nNL, nNaiL, nDD, nPN, nMQ);
+                int nZYPJ = CalcZYPJ(nQZ, nZL, nNL, nNaiL, nDD, nPN, nMQ, nWX);
                 lblCurZYPJ.Text = nZYPJ.ToString();
             }
             catch (Exception ex)
@@ -248,7 +263,7 @@ namespace dhzypj
         /// <param name="nPN">叛逆</param>
         /// <param name="nMQ">名气</param>
         /// <returns>职业评价</returns>
-        private int CalcZYPJ(int nQZ, int nZL, int nNL, int nNaiL, int nDD, int nPN, int nMQ)
+        private int CalcZYPJ(int nQZ, int nZL, int nNL, int nNaiL, int nDD, int nPN, int nMQ, int nWX)
         {
             List<double> sx = new List<double>();
 
@@ -262,8 +277,9 @@ namespace dhzypj
 
             sx.Sort();
 
-            double nZYPJ = 600.0 * Math.Pow(sx[6], 0.2) + 180.0 * Math.Pow(sx[5], 0.2) + 150.0 * Math.Pow(sx[4], 0.2) + 120.0 * Math.Pow(sx[3], 0.2) + 90.0 * Math.Pow(sx[2], 0.2) + 60.0 * Math.Pow(sx[1], 0.2) + 30.0 * Math.Pow(sx[0], 0.2);
-            return (int)nZYPJ;
+            double dZYPJ = 600.0 * Math.Pow(sx[6], 0.2) + 180.0 * Math.Pow(sx[5], 0.2) + 150.0 * Math.Pow(sx[4], 0.2) + 120.0 * Math.Pow(sx[3], 0.2) + 90.0 * Math.Pow(sx[2], 0.2) + 60.0 * Math.Pow(sx[1], 0.2) + 30.0 * Math.Pow(sx[0], 0.2);
+            int nZYPJ = (int)dZYPJ - 20 * nWX;
+            return nZYPJ < 0 ? 0 : nZYPJ;
         }
 
         /// <summary>
@@ -283,6 +299,7 @@ namespace dhzypj
                 sx.Add(string.IsNullOrEmpty(txtDD.Text) ? 0 : Convert.ToInt32(txtDD.Text));
                 sx.Add(string.IsNullOrEmpty(txtPN.Text) ? 0 : Convert.ToInt32(txtPN.Text));
                 sx.Add(string.IsNullOrEmpty(txtMQ.Text) ? 0 : Convert.ToInt32(txtMQ.Text));
+                int nWX = string.IsNullOrEmpty(txtWX.Text) ? 0 : Convert.ToInt32(txtWX.Text);
 
                 int nJD = string.IsNullOrEmpty(txtJD.Text) ? 0 : Convert.ToInt32(txtJD.Text);
 
@@ -296,7 +313,7 @@ namespace dhzypj
                     if (sxCopy[i] > 1200)
                         sxCopy[i] = 1200;
 
-                    int nZYPJ = CalcZYPJ(sxCopy[0], sxCopy[1], sxCopy[2], sxCopy[3], sxCopy[4], sxCopy[5], sxCopy[6]);
+                    int nZYPJ = CalcZYPJ(sxCopy[0], sxCopy[1], sxCopy[2], sxCopy[3], sxCopy[4], sxCopy[5], sxCopy[6], nWX);
 
                     if (nZYPJ > nMaxZYPJ)
                     {
@@ -314,5 +331,6 @@ namespace dhzypj
                 return;
             }
         }
+
     }
 }
